@@ -57,14 +57,48 @@ class App extends Component {
 
             <nav class="mt-2">
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                         
                 <li class="nav-item">
                   <NavLink to={"/testimonial"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-file-invoice" />
                     <p>Testimonial</p>
                   </NavLink>
                 </li>
-          
+                <li class="nav-item">
+                  <NavLink to={"/banners"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-file-invoice" />
+                    <p>Banner </p>
+                  </NavLink>
+                </li>  
+                <li class="nav-item">
+                  <NavLink to={"/numbers"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-file-invoice" />
+                    <p>Numbers </p>
+                  </NavLink>
+                </li>  
+                <li class="nav-item">
+                  <NavLink to={"/news"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-file-invoice" />
+                    <p>News & Events </p>
+                  </NavLink>
+                </li>  
+                <li class="nav-item">
+                  <NavLink to={"/partners"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-file-invoice" />
+                    <p>Partners </p>
+                  </NavLink>
+                </li>  
+                <li class="nav-item">
+                  <NavLink to={"/customers"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-file-invoice" />
+                    <p>Customers </p>
+                  </NavLink>
+                </li>  
+                 <li class="nav-item">
+                  <NavLink to={"/products"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-file-invoice" />
+                    <p>Products & Solutions </p>
+                  </NavLink>
+                </li>          
               </ul>
             </nav>
           </div>
