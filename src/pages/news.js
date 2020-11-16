@@ -152,7 +152,7 @@ class App extends Component {
               <div class="card">
                 <div class="card-header p-2">
                   <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">News</a></li>
+                  <h5>News</h5>
                   </ul>
                 </div>
                 {this.state.items.map((item, index) =>

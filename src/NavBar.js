@@ -19,16 +19,7 @@ class App extends Component {
       return <div>
         
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-          
-          <ul class="navbar-nav">
-            
-            <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/login"} className="nav-link">
-                Login
-              </Link>
-            </li>  
-          </ul>
-          <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="#" onClick={()=> this.logOut()} >
                 Log Out
@@ -44,37 +35,20 @@ class App extends Component {
           </a>
 
           <div class="sidebar">
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-              <div class="image">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image" />
-              </div>
-              <div class="info">
-                <a href="#" class="d-block">
-                  Admin
-                </a>
-              </div>
-            </div>
-
             <nav class="mt-2">
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                   <NavLink to={"/testimonial"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-file-invoice" />
+                    <i class="nav-icon fas fa-comment-alt" />
                     <p>Testimonial</p>
                   </NavLink>
                 </li>
                 <li class="nav-item">
                   <NavLink to={"/banners"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-file-invoice" />
-                    <p>Banner </p>
+                    <i class="nav-icon fas fa-home" />
+                    <p>Home </p>
                   </NavLink>
-                </li>  
-                <li class="nav-item">
-                  <NavLink to={"/numbers"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-file-invoice" />
-                    <p>Numbers </p>
-                  </NavLink>
-                </li>  
+                </li> 
                 <li class="nav-item">
                   <NavLink to={"/news"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-file-invoice" />
@@ -83,19 +57,13 @@ class App extends Component {
                 </li>  
                 <li class="nav-item">
                   <NavLink to={"/partners"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-file-invoice" />
-                    <p>Partners </p>
+                    <i class="nav-icon fas fa-user-friends" />
+                    <p>Partners & Customers </p>
                   </NavLink>
-                </li>  
-                <li class="nav-item">
-                  <NavLink to={"/customers"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-file-invoice" />
-                    <p>Customers </p>
-                  </NavLink>
-                </li>  
+                </li> 
                  <li class="nav-item">
                   <NavLink to={"/products"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-file-invoice" />
+                    <i class="nav-icon fas fa-shopping-bag" />
                     <p>Products & Solutions </p>
                   </NavLink>
                 </li>          
