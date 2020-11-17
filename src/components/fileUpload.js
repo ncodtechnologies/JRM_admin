@@ -26,20 +26,21 @@ class FileUpload extends React.Component{
 
     submit(){
         const data = new FormData() 
-        data.append('file', this.state.selectedFile)
-        console.warn(this.state.selectedFile);
+        data.append('file', this.state.pictures[0])
+        //console.warn(this.state.selectedFile);
         //let url = "http://www.ncod.in/sneha/JRM/controller/upload.php";
         let url = `${URL_FILE_UPLOAD_NEWS}`;
         axios.post(url, data, { // receive two parameter endpoint url ,form data 
         })
         .then(res => { // then print response status
-            console.warn(res);
+            console.log(res);
         })
     }
     onDrop(picture) {
         this.setState({
             pictures: this.state.pictures.concat(picture),
         });
+        console.log(picture);
     }
 
     render(){
@@ -52,7 +53,7 @@ class FileUpload extends React.Component{
                             <ImageUploader
                                 withIcon={true}
                                 buttonText='Choose images'
-                                onChange={this.handleInputChange} 
+                                onChange={this.onDrop} 
                                 imgExtension={['.jpg','.jpeg', '.gif', '.png', '.gif']}
                                 maxFileSize={5242880}
                                 withPreview={true}
