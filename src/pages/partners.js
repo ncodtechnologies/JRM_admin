@@ -45,7 +45,7 @@ class App extends Component {
             <div class="container-fluid">
               <div class="row mb-2">
                 <div class="col-sm-6">
-                  <h1>Partners</h1>
+                  <h1>Partners & Customers</h1>
                 </div>
               </div>
             </div>
@@ -82,26 +82,63 @@ class App extends Component {
               <div class="card">
                 <div class="card-header p-2">
                   <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Partners</a></li>
+                  <h5>Partners</h5>
+                  </ul>
+                </div>               
+                  <div class="card-body">
+                    <div class="tab-content">
+                      <div class="active tab-pane" id="activity">
+                        <div class="post">
+                          <div class="user-block">  
+                          </div>                         
+                        </div>
+                      </div>
+                    </div>
+                  </div>               
+              </div>
+              <section class="content">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="card card-primary">
+                      <div class="card-header">
+                        <h3 class="card-title">Customers</h3>
+
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fas fa-minus"></i></button>
+                        </div>
+                      </div>
+                     
+                      <div class="card-body">
+                      <FileUpload />
+                       
+                        <button type="button" class="btn btn-block btn-success btn-flat" onClick={this.saveItem}>
+                            Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              
+              <div class="card">
+                <div class="card-header p-2">
+                  <ul class="nav nav-pills">
+                    <h5>Customers</h5>
                   </ul>
                 </div>
                
                   <div class="card-body">
                     <div class="tab-content">
                       <div class="active tab-pane" id="activity">
-
                         <div class="post">
-                          <div class="user-block">
-                            
-                           
+                          <div class="user-block">    
                           </div>
-                         
                         </div>
                       </div>
                     </div>
-                  </div>
-               
-              </div>
+                  </div>               
+               </div>
             </div>
 
           </div>

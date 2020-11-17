@@ -140,7 +140,7 @@ class App extends Component {
               <div class="card">
                 <div class="card-header p-2">
                   <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Products & Solutions</a></li>
+                  <h5>Products & Solutions</h5>
                   </ul>
                 </div>
                 {this.state.items.map((item, index) =>
@@ -163,7 +163,6 @@ class App extends Component {
                           <p>
                             <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
                             <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                           
                           </p>
                         </div>
                       </div>

@@ -55,12 +55,12 @@ class App extends Component {
   }
 
   delItem(id_testimonial) {
-
+alert(id_testimonial)
     const url = `${URL_DEL_TESTIMONIAL}`;
 
     axios.get(url, {
       params: {
-        id: id_testimonial
+        id_testimonial: id_testimonial
       }
     }).then(response => response.data)
       .then((data) => {
@@ -68,9 +68,9 @@ class App extends Component {
           this.setState({ items: data })
           //console.log(this.state.items)
         }
-        this.loadItems();
+       
       })
-
+      this.loadItems();
   }
 
   saveItem = () => {
@@ -105,7 +105,7 @@ class App extends Component {
             <div class="container-fluid">
               <div class="row mb-2">
                 <div class="col-sm-6">
-                  <h1>Testimonial</h1>
+                  <h1>Add Testimonial</h1>
                 </div>
                 <div class="col-sm-6">
 
@@ -147,37 +147,29 @@ class App extends Component {
               <div class="card">
                 <div class="card-header p-2">
                   <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Testimonial</a></li>
+                  <h5>Testimonial</h5>
                   </ul>
                 </div>
                 {this.state.items && this.state.items.map((item, index) =>
-
                   <div class="card-body">
                     <div class="tab-content">
                       <div class="active tab-pane" id="activity">
-
+                      </div>
                         <div class="post">
                           <div class="user-block">
                             <img class="img-circle img-bordered-sm" src={user} alt="user image" />
                             <span class="username">
                               <a href="#">{item.author}</a>
                               <a href="#" class="float-right btn-tool">
-                                <button onClick={() => this.delItem(item.id_testimonial)}><i class="fas fa-times"></i>
-                                </button>
+                                <a href="#"><i  onClick={() => this.delItem(item.id_testimonial)} class="fas fa-times"></i></a>
+                                
                               </a>
                             </span>
-                            <span class="description">Shared publicly - 7:30 PM today</span>
                           </div>
                           <p> {item.message} </p>
-                          <p>
-                            <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                            <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                           
-                          </p>
                         </div>
                       </div>
                     </div>
-                  </div>
                 )}
               </div>
             </div>
