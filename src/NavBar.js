@@ -25,8 +25,13 @@ class App extends Component {
                 Log Out
               </a>
             </li>
+            <li class="nav-item d-none d-sm-inline-block">
+              <Link to={"/login"} className="nav-link">
+                Login
+              </Link>
+            </li>  
           </ul>
-              </nav>
+        </nav>
 
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
           <a href="index3.html" class="brand-link">

@@ -6,11 +6,12 @@ import News from '../pages/news';
 import Login from '../pages/login';
 import Partners from '../pages/partners';
 import Products from '../pages/products';
+import AddNews from '../pages/addNews';
 import { createBrowserHistory } from "history";
 
 export default function Routes() {
-  //const session = localStorage.getItem('ShadeUser') || ''
-  const session='abcd';
+  const session = localStorage.getItem('ShadeUser') || ''
+ 
   const history = createBrowserHistory();
   
   return session != '' ? (
@@ -20,6 +21,8 @@ export default function Routes() {
       <Route path="/banners" component={Banners} />   
       <Route path="/partners" component={Partners} />  
       <Route path="/products" component={Products} />  
+      <Route path="/addNews/:id_news" component={AddNews} /> 
+      <Route path="/login" component={Login} />  
     </HashRouter>
   ) : ( 
     <HashRouter>

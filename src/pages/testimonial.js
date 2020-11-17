@@ -55,7 +55,6 @@ class App extends Component {
   }
 
   delItem(id_testimonial) {
-alert(id_testimonial)
     const url = `${URL_DEL_TESTIMONIAL}`;
 
     axios.get(url, {
@@ -105,7 +104,7 @@ alert(id_testimonial)
             <div class="container-fluid">
               <div class="row mb-2">
                 <div class="col-sm-6">
-                  <h1>Add Testimonial</h1>
+                  <h1>Testimonial</h1>
                 </div>
                 <div class="col-sm-6">
 
@@ -119,7 +118,7 @@ alert(id_testimonial)
                   <div class="col-md-12">
                     <div class="card card-primary">
                       <div class="card-header">
-                        <h3 class="card-title">Testimonial</h3>
+                        <h3 class="card-title">Add Testimonial</h3>
 
                         <div class="card-tools">
                           <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">

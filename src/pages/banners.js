@@ -2,8 +2,10 @@ import React, { Component, } from 'react';
 import Nav from '../NavBar';
 import axios from 'axios';
 import user from '../assets/user.png';
-import {URL_GET_NUMBERS,URL_UPDATE_PROJECTS,URL_UPDATE_PARTNERS,URL_UPDATE_CUSTOMERS
+import {URL_GET_NUMBERS,URL_UPDATE_PROJECTS,URL_UPDATE_PARTNERS,URL_UPDATE_CUSTOMERS,
+        URL_GET_BANNERS,URL_UPDATE_TITLE,URL_UPDATE_SUBTITLE,URL_UPDATE_DESCRIPTION
 } from './constants';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +15,6 @@ class App extends Component {
       title: '',
       subtitle: '',
       description:'',
-      activePage: 1,
       projects:'',
       customers:'',
       partners:'',
@@ -34,7 +35,7 @@ class App extends Component {
   }
 
   loadBannerItems() {
-    const url = 'http://localhost/JRM_server/controller/banner/getBanner.php'
+    const url = URL_GET_BANNERS
     axios.get(url).then(response => response.data)
       .then((data) => {
           this.setState({
@@ -134,26 +135,9 @@ class App extends Component {
     this.setState({ description: event.target.value })
   }
 
-  delItem(id_testimonial) {
-
-    const url = 'http://localhost/JRM_server/controller/delTestimonial.php/'
-
-    axios.get(url, {
-      params: {
-        id: id_testimonial
-      }
-    }).then(response => response.data)
-      .then((data) => {
-        if (data.length > 0) {
-          this.setState({ items: data })
-          //console.log(this.state.items)
-        }
-        this.loadBannerItems();
-      })
-
-  }
+ 
   updateTitle = () => {
-    const url = 'http://localhost/JRM_server/controller/banner/updateTitle.php'
+    const url = URL_UPDATE_TITLE
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -170,7 +154,7 @@ class App extends Component {
   }
 
   updateSubtitle = () => {
-    const url = 'http://localhost/JRM_server/controller/banner/updateSubtitle.php'
+    const url = URL_UPDATE_SUBTITLE
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -187,7 +171,7 @@ class App extends Component {
   }
 
   updateDescription = () => {
-    const url = 'http://localhost/JRM_server/controller/banner/updateDescription.php'
+    const url = URL_UPDATE_DESCRIPTION
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -229,7 +213,7 @@ class App extends Component {
                   <div class="col-md-12">
                     <div class="card card-primary">
                       <div class="card-header">
-                        <h3 class="card-title">Banners</h3>
+                        <h3 class="card-title">Banner</h3>
 
                         <div class="card-tools">
                           <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -248,7 +232,7 @@ class App extends Component {
                         </div>
                        
                         <div class="form-group">
-                          <label for="inputName">Sub Title</label>
+                          <label for="inputName">Subtitle</label>
                           <div class="input-group mb-3">
                           <input type="text" value={this.state.subtitle} onChange={this.onSubtitleChange}  class="form-control" />
                           <div class="input-group-append">

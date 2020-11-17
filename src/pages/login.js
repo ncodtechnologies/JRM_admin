@@ -27,10 +27,10 @@ export default class App extends Component {
     fetch(URL_LOGIN, requestOptions)
       .then(response => response.json())
       .then(data => {
-        if(data.length>0)
+        if(data.result)
         {
           this.setState({error: false})
-          localStorage.setItem('ShadeUser', data[0].id_user);
+          localStorage.setItem('ShadeUser', 1);
           window.location.reload();
         }
         else
@@ -49,14 +49,13 @@ export default class App extends Component {
     
   }
 
- 
   render() {
 
     return (
       <div  class="hold-transition login-page" >        
       <div class="login-box">
       <div class="login-logo">
-        <a href="#"><b>Aqua</b>sign</a>
+        <a href="#"><b>JRM</b>Admin</a>
       </div>
       <div class="card">
         <div class="card-body login-card-body">
@@ -92,8 +91,7 @@ export default class App extends Component {
                 <button type="button" onClick={() =>this.login()} class="btn btn-primary btn-block">Sign In</button>
               </div>
             </div>
-          </form>
-          
+          </form>          
          </div>
        </div>
       </div>
