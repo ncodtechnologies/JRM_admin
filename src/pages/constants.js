@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost/JRM_server/";
+const BASE_URL = "http://ncod.in/jrm/admin/";
 
 export const URL_GET_NUMBERS           = `${BASE_URL}controller/numbers/getNumbers.php`;
 export const URL_LOGIN                 = `${BASE_URL}login/login`;
