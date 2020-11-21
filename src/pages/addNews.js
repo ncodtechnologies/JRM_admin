@@ -2,10 +2,17 @@
 import React, { Component, } from 'react';
 import Nav from '../NavBar';
 import axios from 'axios';
-import user from '../assets/user.png';
-import FileUpload from "../components/fileUpload";
 import DatePicker from 'react-date-picker';
-import {URL_GET_NEWS_DT,URL_SAVE_NEWS} from './constants';
+import ImageUploader from 'react-images-upload';
+import {URL_GET_NEWS_DT,
+        URL_SAVE_NEWS,
+        URL_FILE_UPLOAD_NEWS_IMG,
+        URL_FILE_UPLOAD_NEWS_IMG_BG,
+        URL_GET_NEWS_IMG,
+        URL_GET_NEWS_IMG_BG
+      }
+   from './constants';
+
 
 class App extends Component {
   _isMounted = false;
@@ -16,12 +23,21 @@ class App extends Component {
       message: '',
       title: '',
       items: [],
+      id:'',
+      id_news:'',
+      loading:false,
+      selectedFileImg:'',
+      selectedFileImgBg:'',
+      picturesImg: [],
+      picturesImgBg: [],
       date: new Date()
     }
 
     this.onDateChange = this.onDateChange.bind(this);
     this.onTitleChange = this.onTitleChange.bind(this);
-    this.onMessageChange = this.onMessageChange.bind(this);    
+    this.onMessageChange = this.onMessageChange.bind(this);  
+    this.onDropImage = this.onDropImage.bind(this); 
+    this.onDropImageBg = this.onDropImageBg.bind(this);
   }
 
   componentDidMount() {
@@ -30,10 +46,50 @@ class App extends Component {
     if(id_news!=0){
       this.loadItems(id_news);
     }
-
   }
-  
-  loadItems(id_news) {
+
+  submitImg(id_news){
+          const data = new FormData() 
+          data.append('file', this.state.picturesImg[0])
+          data.append('id_news', id_news)
+          //console.warn(this.state.selectedFile);
+       
+          let url = `${URL_FILE_UPLOAD_NEWS_IMG}`;
+          axios.post(url, data, { // receive two parameter endpoint url ,form data 
+          })
+          .then(res => { // then print response status
+              console.log(res);
+          })
+      }
+
+  submitImgBg(id_news){
+        const data = new FormData() 
+        data.append('file', this.state.picturesImgBg[0])
+        data.append('id_news', id_news)
+        //console.warn(this.state.selectedFile);
+     
+        let url = `${URL_FILE_UPLOAD_NEWS_IMG_BG}`;
+        axios.post(url, data, { // receive two parameter endpoint url ,form data 
+        })
+        .then(res => { // then print response status
+            console.log(res);
+        })
+    }
+
+  onDropImage(picture) {
+      this.setState({
+         picturesImg: this.state.picturesImg.concat(picture),
+        });
+       
+    }
+  onDropImageBg(picture) {
+      this.setState({
+        picturesImgBg: this.state.picturesImgBg.concat(picture),
+        });
+      
+    }
+
+  loadItems(id_news) {   
     const url = `${URL_GET_NEWS_DT}?id=${id_news}`;
     axios.get(url).then(response => response.data)
       .then((data) => {        
@@ -43,10 +99,9 @@ class App extends Component {
             message: data["news"].description,
             date: data["news"].date
           })
-           console.log(this.state.title)
-         })    
-    
-         .catch(error => console.log(error));
+           //console.log(this.state.title)
+         })        
+      .catch(error => console.log(error));
   }
 
   componentWillUnmount() {
@@ -79,26 +134,45 @@ class App extends Component {
   }
 
   saveItem = () => {
-    const url = `${URL_SAVE_NEWS}`;
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        title: this.state.title,
-        date: this.formatDate(this.state.date),
-        description: this.state.message
-      })
-    };
-      fetch(url, requestOptions)
-      .then(response => response.json())
-      this.setState({
+    this.setState({
+      loading:true
+    })
+      const url = `${URL_SAVE_NEWS}`;
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+          body: JSON.stringify({
+          title: this.state.title,
+          date: this.formatDate(this.state.date),
+          description: this.state.message,
+          id_news:this.props.match.params.id_news,        
+        })
+      };
+
+      fetch(url, requestOptions)      
+      .then(response => response.json()) // 1
+      .then(data => { 
+              console.log(data)
+          this.setState({
+            loading:false,
+            id:data
+          })
+          const id_news=this.props.match.params.id_news;          
+          const id = (id_news>0 ? id_news : this.state.id )           
+
+          this.submitImg(id);
+          this.submitImgBg(id);
+        }               
+      ),
+      
+      this.setState({     
         title:"",
-        message:"",
+        message:"",        
         date:new Date()
-      })
+      })     
   }
 
   render() {
@@ -115,7 +189,8 @@ class App extends Component {
                 </div>
               </div>
             </div>
-          </section>  <div class="content">
+          </section>  
+          <div class="content">
             <div class="container-fluid">   
               <section class="content">
                 <div class="row">
@@ -126,12 +201,47 @@ class App extends Component {
 
                         <div class="card-tools">
                           <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                            <i class="fas fa-minus"></i></button>
+                            <i class="fas fa-minus"></i>
+                          </button>
                         </div>
-                      </div>
-                     
+                      </div>                     
                       <div class="card-body">
-                      <FileUpload />
+                       <div className="row">
+                            <div className="col-md-6 offset-md-3"> 
+                                <label for="inputDescription">Image</label>                             
+                                <div className="form-row">
+                                 <img src={URL_GET_NEWS_IMG+"/"+this.props.match.params.id_news+".jpeg"} height="70" width="85"/>
+                                     <ImageUploader
+                                        withIcon={true}
+                                        buttonText='Choose images'
+                                        onChange={this.onDropImage} 
+                                        imgExtension={['.jpg','.jpeg', '.gif', '.png', '.gif']}
+                                        maxFileSize={5242880}
+                                        withPreview={true}
+                                        name="upload_file"
+                                        accept="accept=image/*"
+                                    />                                     
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-6 offset-md-3">    
+                                <label for="inputDescription">Background Image</label>                                                            
+                                <div className="form-row"> 
+                                <img src={URL_GET_NEWS_IMG_BG+"/"+this.props.match.params.id_news+".jpeg"} height="70" width="85"/>
+                                     <ImageUploader
+                                        withIcon={true}
+                                        buttonText='Choose images'
+                                        onChange={this.onDropImageBg} 
+                                        imgExtension={['.jpg','.jpeg', '.gif', '.png', '.gif']}
+                                        maxFileSize={5242880}
+                                        withPreview={true}
+                                        name="upload_file_bg"
+                                        accept="accept=image/*"
+                                    />                                     
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                           <label for="inputDescription">Title</label>
                           <input type="text" value={this.state.title} onChange={this.onTitleChange} class="form-control"/>
@@ -143,14 +253,14 @@ class App extends Component {
                               onChange={this.onDateChange}
                               value={this.state.date}
                               format={"dd/MM/yyyy"}
-                          />
+                            />
                         </div>
                         <div class="form-group">
                           <label for="inputDescription">Message</label>
                           <textarea  value={this.state.message} onChange={this.onMessageChange} class="form-control" rows="4"></textarea>
                         </div>
                         <button type="button" class="btn btn-block btn-success btn-flat" onClick={this.saveItem}>
-                            Save
+                        {this.state.loading ?<i class="fas fa-1x fa-sync-alt fa-spin"></i> : "Save" }
                         </button>
                       </div>
                     </div>

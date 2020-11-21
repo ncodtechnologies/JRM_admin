@@ -26,22 +26,18 @@ class App extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    const activePage = this.state.activePage;
     this.loadItems();
-
   }
 
   loadItems() {
     const url = `${URL_GET_TESTIMONIAL}`;
     axios.get(url).then(response => response.data)
       .then((data) => {
-          this.setState({ items: data })
-          // console.log(this.state.items)
-   
+          this.setState({ items: data })   
       })
       .catch(error => console.log(error));
-
   }
+
   componentWillUnmount() {
     this._isMounted = false;
   }
@@ -88,10 +84,17 @@ class App extends Component {
 
     fetch(url, requestOptions)
       .then(response => response.json())
+      .then((data) => {        
+        // this.setState({ items: data })
+       // var newData = this.state.items.concat([...data.news]);  
+        //this.setState({id: data})
+        console.log(data)
+    })
       this.setState({
         author:"",
         message:"",        
       })
+
   }
 
   render() {
@@ -169,10 +172,9 @@ class App extends Component {
                         </div>
                       </div>
                     </div>
-                )}
-              </div>
-            </div>
-
+                   )}
+                </div>
+             </div>
           </div>
         </div>
       </div>

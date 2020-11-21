@@ -3,8 +3,6 @@ import React, { Component, } from 'react';
 import Nav from '../NavBar';
 import axios from 'axios';
 import news from '../assets/news.png';
-import FileUpload from "../components/fileUpload";
-import DatePicker from 'react-date-picker';
 import {URL_GET_NEWS,URL_SAVE_NEWS} from './constants';
 
 class App extends Component {
@@ -28,7 +26,6 @@ class App extends Component {
     this._isMounted = true;
     this.loadItems();
   }
-
   
   loadItems() {
     const url = `${URL_GET_NEWS}`;
@@ -37,8 +34,8 @@ class App extends Component {
           // this.setState({ items: data })
           var newData = this.state.items.concat([...data.news]);  
           this.setState({items: newData})
-          console.log(data.news)
-          console.log(this.state.items)
+          //console.log(data.news)
+          //console.log(this.state.items)
       })
       .catch(error => console.log(error));
   }

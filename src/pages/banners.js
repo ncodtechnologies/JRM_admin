@@ -18,6 +18,12 @@ class App extends Component {
       projects:'',
       customers:'',
       partners:'',
+      loadingTitle:false,
+      loadingSubtitle:false,
+      loadingDescription:false,
+      loadingProjects:false,
+      loadingCustomers:false,
+      loadingPartners:false,
       items: []
     }
 
@@ -60,6 +66,9 @@ class App extends Component {
   }
  
   updateProjects= () => {
+    this.setState({
+      loadingProjects:true
+    })
     const url = `${URL_UPDATE_PROJECTS}`;
     const requestOptions = {
       method: 'POST',
@@ -73,10 +82,19 @@ class App extends Component {
     };
 
     fetch(url, requestOptions)
-      .then(response => response.json())
+      .then(response => { 
+        return response.json(),
+          this.setState({
+            loadingProjects:false
+          })
+    })
   }
 
+
   updateCustomers = () => {
+    this.setState({
+      loadingCustomers:true
+    })
     const url =  `${URL_UPDATE_CUSTOMERS}`;
     const requestOptions = {
       method: 'POST',
@@ -89,10 +107,19 @@ class App extends Component {
       })
     };
     fetch(url, requestOptions)
-      .then(response => response.json())
+      .then(response => { 
+        return response.json(),
+          this.setState({
+            loadingCustomers:false
+          })
+    })
   }
 
+
   updatePartners = () => {
+    this.setState({
+      loadingPartners:true
+    })
     const url =  `${URL_UPDATE_PARTNERS}`;
     const requestOptions = {
       method: 'POST',
@@ -106,7 +133,12 @@ class App extends Component {
     };
 
     fetch(url, requestOptions)
-      .then(response => response.json())
+      .then(response => { 
+        return response.json(),
+          this.setState({
+            loadingPartners:false
+          })
+    })
   }
 
   loadNumbersItems() {
@@ -137,6 +169,9 @@ class App extends Component {
 
  
   updateTitle = () => {
+    this.setState({
+      loadingTitle:true
+    })
     const url = URL_UPDATE_TITLE
     const requestOptions = {
       method: 'POST',
@@ -150,10 +185,18 @@ class App extends Component {
     };
 
     fetch(url, requestOptions)
-      .then(response => response.json())
+      .then(response => { 
+        return response.json(),
+          this.setState({
+            loadingTitle:false
+          })
+    })
   }
 
-  updateSubtitle = () => {
+   updateSubtitle = () => {
+    this.setState({
+      loadingSubtitle:true
+    })
     const url = URL_UPDATE_SUBTITLE
     const requestOptions = {
       method: 'POST',
@@ -167,10 +210,19 @@ class App extends Component {
     };
 
     fetch(url, requestOptions)
-      .then(response => response.json())
+      .then(response => 
+        { 
+          return response.json(),
+            this.setState({
+              loadingSubtitle:false
+            })
+      })
   }
 
   updateDescription = () => {
+    this.setState({
+      loadingDescription:true
+    })
     const url = URL_UPDATE_DESCRIPTION
     const requestOptions = {
       method: 'POST',
@@ -184,7 +236,12 @@ class App extends Component {
     };
 
     fetch(url, requestOptions)
-      .then(response => response.json())
+      .then(response => { 
+        return response.json(),
+          this.setState({
+            loadingDescription:false
+          })
+    })
   }
 
 
@@ -226,7 +283,7 @@ class App extends Component {
                         <div class="input-group mb-3">
                           <input type="text" value={this.state.title} onChange={this.onTitleChange}  class="form-control"/>
                           <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-check"  onClick={this.updateTitle}></i></span>
+                            <span class="input-group-text">{this.state.loadingTitle ?<i class="fas fa-1x fa-sync-alt fa-spin"></i> : <i class="fas fa-check" onClick={this.updateTitle}></i> }</span>
                           </div>
                        </div>
                         </div>
@@ -236,7 +293,7 @@ class App extends Component {
                           <div class="input-group mb-3">
                           <input type="text" value={this.state.subtitle} onChange={this.onSubtitleChange}  class="form-control" />
                           <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-check" onClick={this.updateSubtitle}></i></span>
+                            <span class="input-group-text">{this.state.loadingSubtitle ?<i class="fas fa-1x fa-sync-alt fa-spin"></i> : <i class="fas fa-check" onClick={this.updateSubtitle}></i> }</span>
                           </div>
                        </div>
                          
@@ -246,7 +303,7 @@ class App extends Component {
                           <div class="input-group mb-3">
                           <input type="text"  value={this.state.description} onChange={this.onDescriptionChange} class="form-control" rows="4"/>
                           <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-check" onClick={this.updateDescription}></i></span>
+    <span class="input-group-text">{this.state.loadingDescription ?<i class="fas fa-1x fa-sync-alt fa-spin"></i> : <i class="fas fa-check" onClick={this.updateDescription}></i>}</span>
                           </div>
                          </div>
                         </div>
@@ -277,7 +334,7 @@ class App extends Component {
                         <div class="input-group mb-3">
                           <input type="text" value={this.state.projects} onChange={this.onProjectsChange}  class="form-control"/>
                             <div class="input-group-append">
-                                <span class="input-group-text"><i class="fas fa-check"  onClick={this.updateProjects}></i></span>
+                              <span class="input-group-text">{this.state.loadingProjects ?<i class="fas fa-1x fa-sync-alt fa-spin"></i> : <i class="fas fa-check"  onClick={this.updateProjects}></i>}</span>
                               </div>
                           </div>
                         </div>                       
@@ -286,7 +343,7 @@ class App extends Component {
                           <div class="input-group mb-3">
                               <input type="text" value={this.state.customers} onChange={this.onCustomersChange}  class="form-control" />
                               <div class="input-group-append">
-                                <span class="input-group-text"><i class="fas fa-check" onClick={this.updateCustomers}></i></span>
+                                <span class="input-group-text">{this.state.loadingCustomers ?<i class="fas fa-1x fa-sync-alt fa-spin"></i> : <i class="fas fa-check" onClick={this.updateCustomers}></i>}</span>
                               </div>
                          </div>                         
                         </div>
@@ -295,7 +352,7 @@ class App extends Component {
                             <div class="input-group mb-3">
                               <input type="text"  value={this.state.partners} onChange={this.onPartnersChange} class="form-control"/>
                               <div class="input-group-append">
-                                <span class="input-group-text"><i class="fas fa-check" onClick={this.updatePartners}></i></span>
+                                <span class="input-group-text">{this.state.loadingPartners ?<i class="fas fa-1x fa-sync-alt fa-spin"></i> : <i class="fas fa-check" onClick={this.updatePartners}></i>}</span>
                               </div>
                           </div>
                         </div>

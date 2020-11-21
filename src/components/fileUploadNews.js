@@ -9,15 +9,19 @@ class FileUpload extends React.Component{
         super();
         this.state = {
             selectedFile:'',
+            //id_news:'',
             pictures: []
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.onDrop = this.onDrop.bind(this);
     }
+    componentDidMount(){
+      const id_news=this.props.id_news;
+      alert(id_news)
+    }
 
     handleInputChange(event) {
-       alert(event)
         this.setState({
             selectedFile: event.target.files[0],
           })

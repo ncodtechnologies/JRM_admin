@@ -1,7 +1,13 @@
 import React, { Component, } from 'react';
 import Nav from '../NavBar';
 import axios from 'axios';
-import FileUpload from "../components/fileUploadPartners";
+import {URL_GET_PARTNERS_IMG,
+        URL_GET_CUSTOMERS_IMG,
+        URL_FILE_UPLOAD_CUSTOMERS,
+        URL_FILE_UPLOAD_PARTNERS
+}
+from './constants';
+import ImageUploader from 'react-images-upload';
 
 class App extends Component {
   _isMounted = false;
@@ -11,8 +17,16 @@ class App extends Component {
       title: 'Table',
       data: null,
       items: [],
-    }
-    
+      selectedFilePartners:'',
+      selectedFileCustomers:'',
+      picturesPartners: [],
+      picturesCustomers: [],
+      id:'',
+      id_partner:'',
+      id_customer:''
+    }        
+    this.onDropPartners = this.onDropPartners.bind(this); 
+    this.onDropCustomers = this.onDropCustomers.bind(this);
   }
 
   componentDidMount() {
@@ -26,7 +40,6 @@ class App extends Component {
       .then((data) => {
         if (this._isMounted) {
           this.setState({ items: data })
-          // console.log(this.state.items)
         }
       })
   }
@@ -34,6 +47,82 @@ class App extends Component {
     this._isMounted = false;
   }
    
+  submitPartners(id_partner){
+      const data = new FormData() 
+      data.append('file', this.state.picturesPartners[0])
+      data.append('id_partner', id_partner)
+  
+      let url = `${URL_FILE_UPLOAD_PARTNERS}`;
+      axios.post(url, data, { // receive two parameter endpoint url ,form data 
+      })
+      .then(res => { // then print response status
+          console.log(res);
+      })
+  }
+
+  submitCustomers(id_customer){
+    const data = new FormData() 
+    data.append('file', this.state.picturesCustomers[0])
+    data.append('id_customer', id_customer)
+    //console.warn(this.state.selectedFile);
+
+    let url = `${URL_FILE_UPLOAD_CUSTOMERS}`;
+    axios.post(url, data, { // receive two parameter endpoint url ,form data 
+    })
+    .then(res => { // then print response status
+        console.log(res);
+    })
+  }
+
+  onDropPartners(picture) {
+  this.setState({
+    picturesPartners: this.state.picturesPartners.concat(picture),
+    });  
+  }
+
+  onDropCustomers(picture) {
+  this.setState({
+    picturesCustomers: this.state.picturesCustomers.concat(picture),
+    });
+  }
+
+  savePartner = () => {
+    this.setState({
+      loading:true
+    })
+      const url = `${URL_SAVE_NEWS}`;
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+          body: JSON.stringify({
+          name: "1",       
+        })
+      };
+
+      fetch(url, requestOptions)      
+      .then(response => response.json()) // 1
+      .then(data => { 
+              console.log(data)
+          this.setState({
+            loading:false,
+            id:data
+          })                    
+          const id =  this.state.id;
+          this.submitPartners(id);
+          this.submitCustomers(id);
+        }               
+      ),
+      
+      this.setState({     
+        title:"",
+        message:"",        
+        date:new Date()
+      })     
+  }
+
 
   render() {
 
@@ -68,9 +157,27 @@ class App extends Component {
                       </div>
                      
                       <div class="card-body">
-                      <FileUpload />
+                      <div className="row">
+                            <div className="col-md-6 offset-md-3"> 
+                                <label for="inputDescription">Image</label>                             
+                                <div className="form-row">
+                                 <img src={URL_GET_PARTNERS_IMG+"/"+this.props.match.params.id_news+".jpeg"} height="70" width="85"/>
+                                     <ImageUploader
+                                        withIcon={true}
+                                        buttonText='Choose images'
+                                        onChange={this.onDropPartners} 
+                                        imgExtension={['.jpg','.jpeg', '.gif', '.png', '.gif']}
+                                        maxFileSize={5242880}
+                                        withPreview={true}
+                                        name="upload_file"
+                                        accept="accept=image/*"
+                                    />                                     
+                                </div>
+                            </div>
+                        </div>
                        
-                        <button type="button" class="btn btn-block btn-success btn-flat" onClick={this.saveItem}>
+                       
+                        <button type="button" class="btn btn-block btn-success btn-flat" onClick={this.savePartner}>
                             Save
                         </button>
                       </div>
@@ -110,7 +217,24 @@ class App extends Component {
                       </div>
                      
                       <div class="card-body">
-                      <FileUpload />
+                      <div className="row">
+                            <div className="col-md-6 offset-md-3">    
+                                <label for="inputDescription">Background Image</label>                                                            
+                                <div className="form-row"> 
+                                <img src={URL_GET_CUSTOMERS_IMG+"/"+this.props.match.params.id_news+".jpeg"} height="70" width="85"/>
+                                     <ImageUploader
+                                        withIcon={true}
+                                        buttonText='Choose images'
+                                        onChange={this.onDropCustomers} 
+                                        imgExtension={['.jpg','.jpeg', '.gif', '.png', '.gif']}
+                                        maxFileSize={5242880}
+                                        withPreview={true}
+                                        name="upload_file_bg"
+                                        accept="accept=image/*"
+                                    />                                     
+                                </div>
+                            </div>
+                        </div>
                        
                         <button type="button" class="btn btn-block btn-success btn-flat" onClick={this.saveItem}>
                             Save
