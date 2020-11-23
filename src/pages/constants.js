@@ -24,5 +24,5 @@ export const URL_GET_NEWS_IMG           = `${BASE_URL}controller/images/news/ima
 export const URL_GET_NEWS_IMG_BG        = `${BASE_URL}controller/images/news/bgImages`;
 export const URL_GET_PARTNERS_IMG       = `${BASE_URL}controller/images/partners`;
 export const URL_GET_CUSTOMERS_IMG      = `${BASE_URL}controller/images/customers`;
-export const URL_FILE_UPLOAD_PARTNERS   = `${BASE_URL}controller/partners/uploadPartners.php`;
-export const URL_FILE_UPLOAD_CUSTOMERS  = `${BASE_URL}controller/partners/uploadCustomers.php`;
+export const URL_FILE_UPLOAD_PARTNERS   = `${BASE_URL}controller/partners/uploadPartner.php`;
+export const URL_FILE_UPLOAD_CUSTOMERS  = `${BASE_URL}controller/partners/uploadCustomer.php`;
