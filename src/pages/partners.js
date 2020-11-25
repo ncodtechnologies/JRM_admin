@@ -5,10 +5,11 @@ import {URL_GET_PARTNERS_IMG,
         URL_GET_CUSTOMERS_IMG,
         URL_FILE_UPLOAD_CUSTOMERS,
         URL_FILE_UPLOAD_PARTNERS,
-        URL_SAVE_PARTNER
+        URL_GET_PARTNERS
 }
 from './constants';
 import ImageUploader from 'react-images-upload';
+import { data, map } from 'jquery';
 
 class App extends Component {
   _isMounted = false;
@@ -17,7 +18,7 @@ class App extends Component {
     this.state = {
       title: 'Table',
       data: null,
-      items: [],
+      partners: [],
       selectedFilePartners:'',
       selectedFileCustomers:'',
       picturesPartners: [],
@@ -26,6 +27,7 @@ class App extends Component {
       id_partner:'',
       id_customer:''
     }        
+
     this.onDropPartners = this.onDropPartners.bind(this); 
     this.onDropCustomers = this.onDropCustomers.bind(this);
     this.submitPartners = this.submitPartners.bind(this);
@@ -34,18 +36,21 @@ class App extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    //this.loadItems();
+    this.loadPartners();
   }
 
-  /*loadItems() {
-    const url = 'http://localhost/JRM_server/controller/getTestimonials.php'
+  loadPartners() {
+    const url = URL_GET_PARTNERS;
     axios.get(url).then(response => response.data)
       .then((data) => {
         if (this._isMounted) {
-          this.setState({ items: data })
+          var newData = this.state.partners.concat([data]);  
+          this.setState({ partners: newData })
         }
+        console.log(this.state.partners)
       })
-  }*/
+  }
+  
   componentWillUnmount() {
     this._isMounted = false;
   }
@@ -101,10 +106,10 @@ class App extends Component {
                 </div>
               </div>
             </div>
-          </section>  <div class="content">
+          </section>  
+          <div class="content">
             <div class="container-fluid">              
-            <div>     
-              
+            <div>  
             </div>
               <section class="content">
                 <div class="row">
@@ -112,13 +117,11 @@ class App extends Component {
                     <div class="card card-primary">
                       <div class="card-header">
                         <h3 class="card-title">Partners</h3>
-
                         <div class="card-tools">
                           <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                             <i class="fas fa-minus"></i></button>
                         </div>
-                      </div>
-                     
+                      </div>                     
                       <div class="card-body">
                       <div className="row">
                             <div className="col-md-6 offset-md-3"> 
@@ -134,11 +137,39 @@ class App extends Component {
                                         accept="accept=image/*"
                                     />                                     
                                 </div>
+                            </div>    
+                        </div> 
+                        <div className="row">                                                                  
+                            <button type="button" class="btn btn-block btn-success btn-flat" onClick={this.submitPartners}>
+                                Save
+                            </button>
+                        </div> 
+                        <div class="row">
+                        <div class="col-md-6">
+                          <div class="card card-widget">
+                            <div class="card-header">
+                              <div class="user-block">
+                                {this.state.partners.map((item) => 
+                                <img class="img-circle" src={URL_GET_PARTNERS_IMG+"/"+ item.id_partner+ ".jpeg"}  alt="User Image"/>
+                              )}
+                                <span class="username"><a href="#">Jonathan Burke Jr.</a></span>
+                                <span class="description">Shared publicly - 7:30 PM Today</span>
+                              </div>
+                              <div class="card-tools">                       
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                                </button>
+                              </div>
                             </div>
-                        </div>           
-                        <button type="button" class="btn btn-block btn-success btn-flat" onClick={this.submitPartners}>
-                            Save
-                        </button>
+                            <div class="card-body">
+                              <img class="img-fluid pad" src="../dist/img/photo2.png" alt="Photo"/>
+                              <p>I took this photo this morning. What do you guys think?</p>
+                              <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
+                              <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>
+                              <span class="float-right text-muted">127 likes - 3 comments</span>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

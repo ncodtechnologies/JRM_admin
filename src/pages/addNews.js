@@ -13,7 +13,6 @@ import {URL_GET_NEWS_DT,
       }
    from './constants';
 
-
 class App extends Component {
   _isMounted = false;
   constructor(props) {

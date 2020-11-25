@@ -26,3 +26,5 @@ export const URL_GET_PARTNERS_IMG       = `${BASE_URL}controller/images/partners
 export const URL_GET_CUSTOMERS_IMG      = `${BASE_URL}controller/images/customers`;
 export const URL_FILE_UPLOAD_PARTNERS   = `${BASE_URL}controller/partners/uploadPartner.php`;
 export const URL_FILE_UPLOAD_CUSTOMERS  = `${BASE_URL}controller/partners/uploadCustomer.php`;
+export const URL_GET_PARTNERS           = `${BASE_URL}controller/partners/getPartners.php`;
+
