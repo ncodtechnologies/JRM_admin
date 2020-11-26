@@ -9,7 +9,6 @@ import {URL_GET_PARTNERS_IMG,
 }
 from './constants';
 import ImageUploader from 'react-images-upload';
-import { data, map } from 'jquery';
 
 class App extends Component {
   _isMounted = false;
@@ -44,8 +43,8 @@ class App extends Component {
     axios.get(url).then(response => response.data)
       .then((data) => {
         if (this._isMounted) {
-          var newData = this.state.partners.concat([data]);  
-          this.setState({ partners: newData })
+          var newData = this.state.partners.concat([data[0]]);  
+          this.setState({ partners:  newData })          
         }
         console.log(this.state.partners)
       })
@@ -148,24 +147,16 @@ class App extends Component {
                         <div class="col-md-6">
                           <div class="card card-widget">
                             <div class="card-header">
-                              <div class="user-block">
-                                {this.state.partners.map((item) => 
-                                <img class="img-circle" src={URL_GET_PARTNERS_IMG+"/"+ item.id_partner+ ".jpeg"}  alt="User Image"/>
-                              )}
-                                <span class="username"><a href="#">Jonathan Burke Jr.</a></span>
-                                <span class="description">Shared publicly - 7:30 PM Today</span>
-                              </div>
                               <div class="card-tools">                       
                                 <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
                                 </button>
                               </div>
                             </div>
                             <div class="card-body">
-                              <img class="img-fluid pad" src="../dist/img/photo2.png" alt="Photo"/>
-                              <p>I took this photo this morning. What do you guys think?</p>
-                              <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
-                              <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>
-                              <span class="float-right text-muted">127 likes - 3 comments</span>
+      
+                            {this.state.partners && this.state.partners.map((item,index) => 
+                              <img class="img-fluid pad" src={URL_GET_PARTNERS_IMG+"/"+ item.id_partner+".jpeg"} alt="Photo"/>
+                              )}
                             </div>
                             </div>
                           </div>
