@@ -25,11 +25,6 @@ class App extends Component {
                 Log Out
               </a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/login"} className="nav-link">
-                Login
-              </Link>
-            </li>  
           </ul>
         </nav>
 
@@ -43,17 +38,17 @@ class App extends Component {
             <nav class="mt-2">
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                  <NavLink to={"/testimonial"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-comment-alt" />
-                    <p>Testimonial</p>
-                  </NavLink>
-                </li>
-                <li class="nav-item">
                   <NavLink to={"/banners"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-home" />
                     <p>Home </p>
                   </NavLink>
                 </li> 
+                <li class="nav-item">
+                  <NavLink to={"/testimonial"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-comment-alt" />
+                    <p>Testimonial</p>
+                  </NavLink>
+                </li>
                 <li class="nav-item">
                   <NavLink to={"/news"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-file-invoice" />
@@ -66,13 +61,13 @@ class App extends Component {
                     <p>Partners & Customers </p>
                   </NavLink>
                 </li> 
-                 <li class="nav-item">
+              {/*   <li class="nav-item">
                   <NavLink to={"/products"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-shopping-bag" />
                     <p>Products & Solutions </p>
                   </NavLink>
                 </li>          
-              </ul>
+    */}       </ul>
             </nav>
           </div>
         </aside>

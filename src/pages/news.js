@@ -3,7 +3,11 @@ import React, { Component, } from 'react';
 import Nav from '../NavBar';
 import axios from 'axios';
 import news from '../assets/news.png';
-import {URL_GET_NEWS,URL_SAVE_NEWS} from './constants';
+import {URL_GET_NEWS,URL_DEL_NEWS} from './constants';
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { Redirect } from 'react-router-dom';
+import history from '../servives/history';
 
 class App extends Component {
   _isMounted = false;
@@ -14,7 +18,8 @@ class App extends Component {
       message: '',
       title: '',
       items: [],
-      date: new Date()
+      date: new Date(),
+      redirect: null,
     }
 
     this.onDateChange = this.onDateChange.bind(this);
@@ -27,15 +32,38 @@ class App extends Component {
     this.loadItems();
   }
   
+  confirmDelete(id_news){
+    confirmAlert({
+      title: 'Confirm Delete',
+      message: 'Are you sure you want to delete?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => this.delItem(id_news)
+        },
+        {
+          label: 'No',
+          onClick: () => {}
+        }
+      ]
+    });
+  }
+
+  delItem(id_news) {
+    const url = `${URL_DEL_NEWS}`;
+
+    axios.get(url, {
+      params: {
+        id_news: id_news
+      }
+    }).then(response => this.loadItems())
+  }
+
   loadItems() {
     const url = `${URL_GET_NEWS}`;
     axios.get(url).then(response => response.data)
       .then((data) => {        
-          // this.setState({ items: data })
-          var newData = this.state.items.concat([...data.news]);  
-          this.setState({items: newData})
-          //console.log(data.news)
-          //console.log(this.state.items)
+          this.setState({items: [...data.news]})
       })
       .catch(error => console.log(error));
   }
@@ -71,6 +99,13 @@ class App extends Component {
 
   render() {
 
+    const { redirect } = this.state;
+    
+
+     if (redirect) {
+       return <Redirect to={`/addNews/${redirect}`}/>;
+     }
+
     return (
       <div class="wrapper" >
         <Nav />
@@ -103,9 +138,12 @@ class App extends Component {
                           <div class="user-block">
                             <img class="img-circle img-bordered-sm" src={news} alt="user image" />
                               <span class="username">
-                              <a href="#">{item.title}</a>
+                              <a href="#" onClick={(e)=>{ e.preventDefault(); history.push('/#/news'); this.setState({redirect: item.id_news}) }} >{item.title}</a>
                               <a href="#" class="float-right btn-tool">
-                                <a href={`/#/addNews/${item.id_news}`}><i  class="fas fa-edit"></i></a>
+                                <a href="#" onClick={(e)=>{
+                                  e.preventDefault();
+                                  this.confirmDelete(item.id_news);
+                                }} ><i  class="fas fa-trash"></i></a>
                               </a>
                             </span>
                             <span class="description">{this.formatDate(item.date)}</span>

@@ -30,7 +30,7 @@ export default class App extends Component {
         if(data.result)
         {
           this.setState({error: false})
-          localStorage.setItem('ShadeUser', 1);
+          localStorage.setItem('JRMUser', 1);
           window.location.reload();
         }
         else

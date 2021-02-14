@@ -6,12 +6,14 @@ import DatePicker from 'react-date-picker';
 import ImageUploader from 'react-images-upload';
 import {URL_GET_NEWS_DT,
         URL_SAVE_NEWS,
+        URL_UPDATE_NEWS,
         URL_FILE_UPLOAD_NEWS_IMG,
         URL_FILE_UPLOAD_NEWS_IMG_BG,
         URL_GET_NEWS_IMG,
         URL_GET_NEWS_IMG_BG
       }
    from './constants';
+import { Redirect } from 'react-router'
 
 class App extends Component {
   _isMounted = false;
@@ -25,11 +27,18 @@ class App extends Component {
       id:'',
       id_news:'',
       loading:false,
+      loadingImg:false,
+      loadingBgImg:false,
       selectedFileImg:'',
       selectedFileImgBg:'',
       picturesImg: [],
       picturesImgBg: [],
-      date: new Date()
+      date: new Date(),
+      newsImageExist: false,
+      bgImageExist: false,
+      changeNewsImage: false,
+      changeBgImage: false,
+      redirect: false,
     }
 
     this.onDateChange = this.onDateChange.bind(this);
@@ -37,6 +46,9 @@ class App extends Component {
     this.onMessageChange = this.onMessageChange.bind(this);  
     this.onDropImage = this.onDropImage.bind(this); 
     this.onDropImageBg = this.onDropImageBg.bind(this);
+    this.checkImages = this.checkImages.bind(this);
+    this.hasBgImg = this.hasBgImg.bind(this);
+    this.hasNewsImg = this.hasNewsImg.bind(this);
   }
 
   componentDidMount() {
@@ -45,34 +57,73 @@ class App extends Component {
     if(id_news!=0){
       this.loadItems(id_news);
     }
+    this.checkImages();
   }
 
+  hasBgImg (){
+    this.setState({bgImageExist: true})
+  }
+
+  hasNewsImg (){
+    this.setState({newsImageExist: true})
+  }
+
+  checkImages () {
+    this.checkImage(URL_GET_NEWS_IMG+"/"+this.props.match.params.id_news+".jpeg",
+      this.hasNewsImg, function(){  } 
+    );
+    this.checkImage(URL_GET_NEWS_IMG_BG+"/"+this.props.match.params.id_news+".jpeg",
+      this.hasBgImg, function(){ } );
+  }
+
+
+  checkImage(imageSrc, good, bad) {
+    var img = new Image();
+    img.src = imageSrc;
+    img.onload = good; 
+    img.onerror = bad;
+}
+
   submitImg(id_news){
+          if(this.state.picturesImg.length == 0){
+            this.submitImgBg(id_news);
+          }
+          else
+          {
+            const data = new FormData() 
+            data.append('file', this.state.picturesImg[0])
+            data.append('id_news', id_news)
+            //console.warn(this.state.selectedFile);
+        
+            let url = `${URL_FILE_UPLOAD_NEWS_IMG}`;
+            axios.post(url, data, { // receive two parameter endpoint url ,form data 
+            })
+            .then(res => { // then print response status
+                console.log(res);
+                this.submitImgBg(id_news);
+            })
+          }
+      }
+
+  submitImgBg(id_news){
+        if(this.state.picturesImgBg.length == 0)
+        {
+          this.setState({loading: false, redirect: true});
+        }
+        else{
           const data = new FormData() 
-          data.append('file', this.state.picturesImg[0])
+          data.append('file', this.state.picturesImgBg[0])
           data.append('id_news', id_news)
           //console.warn(this.state.selectedFile);
-       
-          let url = `${URL_FILE_UPLOAD_NEWS_IMG}`;
+      
+          let url = `${URL_FILE_UPLOAD_NEWS_IMG_BG}`;
           axios.post(url, data, { // receive two parameter endpoint url ,form data 
           })
           .then(res => { // then print response status
               console.log(res);
+              this.setState({loading: false, redirect: true});
           })
       }
-
-  submitImgBg(id_news){
-        const data = new FormData() 
-        data.append('file', this.state.picturesImgBg[0])
-        data.append('id_news', id_news)
-        //console.warn(this.state.selectedFile);
-     
-        let url = `${URL_FILE_UPLOAD_NEWS_IMG_BG}`;
-        axios.post(url, data, { // receive two parameter endpoint url ,form data 
-        })
-        .then(res => { // then print response status
-            console.log(res);
-        })
     }
 
   onDropImage(picture) {
@@ -96,7 +147,7 @@ class App extends Component {
             items:data["news"],
             title: data["news"].title,
             message: data["news"].description,
-            date: data["news"].date
+            date: new Date(data["news"].date)
           })
            //console.log(this.state.title)
          })        
@@ -115,7 +166,7 @@ class App extends Component {
     this.setState({ message: event.target.value })
   }
 
-  onDateChange = date => {
+  onDateChange(date) {
     this.setState({ date });   
   }
 
@@ -136,7 +187,7 @@ class App extends Component {
     this.setState({
       loading:true
     })
-      const url = `${URL_SAVE_NEWS}`;
+      const url = this.props.match.params.id_news == 0 ? URL_SAVE_NEWS : URL_UPDATE_NEWS;
       const requestOptions = {
         method: 'POST',
         headers: {
@@ -156,25 +207,24 @@ class App extends Component {
       .then(data => { 
               console.log(data)
           this.setState({
-            loading:false,
             id:data
           })
           const id_news=this.props.match.params.id_news;          
           const id = (id_news>0 ? id_news : this.state.id )           
 
           this.submitImg(id);
-          this.submitImgBg(id);
         }               
-      ),
-      
-      this.setState({     
-        title:"",
-        message:"",        
-        date:new Date()
-      })     
+      )
+       
   }
 
   render() {
+
+    const { redirect } = this.state;
+
+     if (redirect) {
+       return <Redirect to='/news'/>;
+     }
 
     return (
       <div class="wrapper" >
@@ -207,38 +257,62 @@ class App extends Component {
                       <div class="card-body">
                        <div className="row">
                             <div className="col-md-6 offset-md-3"> 
-                                <label for="inputDescription">Image</label>                             
+                                <label for="inputDescription">Image1</label>                             
                                 <div className="form-row">
-                                 <img src={URL_GET_NEWS_IMG+"/"+this.props.match.params.id_news+".jpeg"} height="70" width="85"/>
+                                  {(this.state.newsImageExist && !this.state.changeNewsImage) ?
+                                 <img src={URL_GET_NEWS_IMG+"/"+this.props.match.params.id_news+".jpeg"}
+                                  style={{display: "block", maxWidth: 500, maxHeight: 200, width: "auto", height: "auto"}}
+                                />
+                                 :
                                      <ImageUploader
                                         withIcon={true}
-                                        buttonText='Choose images'
+                                        buttonText='Choose image'
                                         onChange={this.onDropImage} 
-                                        imgExtension={['.jpg','.jpeg', '.gif', '.png', '.gif']}
+                                        imgExtension={['.jpg','.jpeg']}
                                         maxFileSize={5242880}
                                         withPreview={true}
                                         name="upload_file"
                                         accept="accept=image/*"
-                                    />                                     
+                                        singleImage
+                                    />    
+                                  }                                 
                                 </div>
+                                {(this.state.newsImageExist && !this.state.changeNewsImage) &&
+                                  <a href="#" onClick={(e)=>{
+                                    e.preventDefault();
+                                    this.setState({changeNewsImage: true})
+                                  }} >Change Image</a>
+                                }
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-6 offset-md-3">    
-                                <label for="inputDescription">Background Image</label>                                                            
+                                <label for="inputDescription">Image2</label>                                                            
                                 <div className="form-row"> 
-                                <img src={URL_GET_NEWS_IMG_BG+"/"+this.props.match.params.id_news+".jpeg"} height="70" width="85"/>
+                                {(this.state.bgImageExist && !this.state.changeBgImage) ?
+                                <img src={URL_GET_NEWS_IMG_BG+"/"+this.props.match.params.id_news+".jpeg"} 
+                                  style={{display: "block", maxWidth: 500, maxHeight: 200, width: "auto", height: "auto"}}
+                                />
+                                :
                                      <ImageUploader
                                         withIcon={true}
-                                        buttonText='Choose images'
+                                        buttonText='Choose image'
                                         onChange={this.onDropImageBg} 
-                                        imgExtension={['.jpg','.jpeg', '.gif', '.png', '.gif']}
+                                        imgExtension={['.jpg','.jpeg']}
                                         maxFileSize={5242880}
                                         withPreview={true}
                                         name="upload_file_bg"
                                         accept="accept=image/*"
-                                    />                                     
+                                        singleImage
+                                    />          
+                                }                           
                                 </div>
+                                {(this.state.bgImageExist && !this.state.changeBgImage) &&
+                                  <a href="#" onClick={(e)=>{
+                                    e.preventDefault();
+                                    this.setState({changeBgImage: true})
+                                  }} >Change Image</a>
+                                }
                             </div>
                         </div>
                         <div class="form-group">
@@ -250,13 +324,13 @@ class App extends Component {
                             <DatePicker
                               className={"form-control"}
                               onChange={this.onDateChange}
-                              value={this.state.date}
+                              value={new Date(this.state.date)}
                               format={"dd/MM/yyyy"}
                             />
                         </div>
                         <div class="form-group">
                           <label for="inputDescription">Message</label>
-                          <textarea  value={this.state.message} onChange={this.onMessageChange} class="form-control" rows="4"></textarea>
+                          <textarea  value={this.state.message} onChange={this.onMessageChange} class="form-control" rows="15"></textarea>
                         </div>
                         <button type="button" class="btn btn-block btn-success btn-flat" onClick={this.saveItem}>
                         {this.state.loading ?<i class="fas fa-1x fa-sync-alt fa-spin"></i> : "Save" }

@@ -1,7 +1,8 @@
-const BASE_URL = "http://ncod.in/jrm/admin/";
+//const BASE_URL = "http://ncod.in/jrm/admin/";
+const BASE_URL = "https://jrm.com.eg/admin/";
 
 export const URL_GET_NUMBERS            = `${BASE_URL}controller/numbers/getNumbers.php`;
-export const URL_LOGIN                  = `${BASE_URL}controller/user/checkAuth.php`;
+export const URL_LOGIN                  = `${BASE_URL}controller/login/login.php`;
 export const URL_UPDATE_PROJECTS        = `${BASE_URL}controller/numbers/updateProjects.php`;
 export const URL_UPDATE_CUSTOMERS       = `${BASE_URL}controller/numbers/updateCustomers.php`;
 export const URL_UPDATE_PARTNERS        = `${BASE_URL}controller/numbers/updatePartners.php`;
@@ -9,6 +10,8 @@ export const URL_FILE_UPLOAD_NEWS_IMG   = `${BASE_URL}controller/news/uploadImg.
 export const URL_FILE_UPLOAD_NEWS_IMG_BG= `${BASE_URL}controller/news/uploadImgBg.php`;
 export const URL_GET_NEWS               = `${BASE_URL}controller/news/getNews.php`;
 export const URL_SAVE_NEWS              = `${BASE_URL}controller/news/addNews.php`;
+export const URL_UPDATE_NEWS            = `${BASE_URL}controller/news/updNews.php`;
+export const URL_DEL_NEWS               = `${BASE_URL}controller/news/delNews.php`;
 export const URL_GET_NEWS_DT            = `${BASE_URL}controller/news/getNewsDt.php`;
 export const URL_SAVE_PRODUCT           = `${BASE_URL}controller/products/addProduct.php`;
 export const URL_DEL_PRODUCT            = `${BASE_URL}controller/products/delProduct.php`;
@@ -27,4 +30,7 @@ export const URL_GET_CUSTOMERS_IMG      = `${BASE_URL}controller/images/customer
 export const URL_FILE_UPLOAD_PARTNERS   = `${BASE_URL}controller/partners/uploadPartner.php`;
 export const URL_FILE_UPLOAD_CUSTOMERS  = `${BASE_URL}controller/partners/uploadCustomer.php`;
 export const URL_GET_PARTNERS           = `${BASE_URL}controller/partners/getPartners.php`;
+export const URL_GET_CUSTOMERS          = `${BASE_URL}controller/partners/getCustomers.php`;
+export const URL_DEL_PARTNER            = `${BASE_URL}controller/partners/delPartner.php`;
+export const URL_DEL_CUSTOMER           = `${BASE_URL}controller/partners/delCustomer.php`;
 

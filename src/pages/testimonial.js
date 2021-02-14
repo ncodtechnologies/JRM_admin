@@ -6,6 +6,8 @@ import { URL_GET_TESTIMONIAL,
   URL_SAVE_TESTIMONIAL,
   URL_DEL_TESTIMONIAL} 
   from './constants';
+  import { confirmAlert } from 'react-confirm-alert'; 
+  import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class App extends Component {
   _isMounted = false;
@@ -50,6 +52,23 @@ class App extends Component {
     this.setState({ message: event.target.value })
   }
 
+  confirmDelete(id_testimonial){
+    confirmAlert({
+      title: 'Confirm Delete',
+      message: 'Are you sure you want to delete?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => this.delItem(id_testimonial)
+        },
+        {
+          label: 'No',
+          onClick: () => {}
+        }
+      ]
+    });
+  }
+
   delItem(id_testimonial) {
     const url = `${URL_DEL_TESTIMONIAL}`;
 
@@ -59,13 +78,8 @@ class App extends Component {
       }
     }).then(response => response.data)
       .then((data) => {
-        if (data.length > 0) {
-          this.setState({ items: data })
-          //console.log(this.state.items)
-        }
-       
+        this.loadItems();
       })
-      this.loadItems();
   }
 
   saveItem = () => {
@@ -163,7 +177,10 @@ class App extends Component {
                             <span class="username">
                               <a href="#">{item.author}</a>
                               <a href="#" class="float-right btn-tool">
-                                <a href="#"><i  onClick={() => this.delItem(item.id_testimonial)} class="fas fa-times"></i></a>
+                                <a href="#" onClick={(e) => {
+                                                    e.preventDefault();
+                                                    this.confirmDelete(item.id_testimonial)
+                                }} ><i  class="fas fa-times"></i></a>
                                 
                               </a>
                             </span>

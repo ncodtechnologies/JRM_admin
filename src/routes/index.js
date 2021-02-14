@@ -10,7 +10,7 @@ import AddNews from '../pages/addNews';
 import { createBrowserHistory } from "history";
 
 export default function Routes() {
-  const session = localStorage.getItem('ShadeUser') || ''
+  const session =  localStorage.getItem('JRMUser') || ''
  
   const history = createBrowserHistory();
   
@@ -18,6 +18,7 @@ export default function Routes() {
     <HashRouter history={history}>
       <Route path="/news" component={News} />   
       <Route path="/testimonial" component={Testimonial} />   
+      <Route path="/" exact component={Banners} />   
       <Route path="/banners" component={Banners} />   
       <Route path="/partners" component={Partners} />  
       <Route path="/products" component={Products} />  
