@@ -97,6 +97,8 @@ class App extends Component {
     return [ day, month, year].join('/');
   }
 
+  renderHTML = (rawHTML) => React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
+
   render() {
 
     const { redirect } = this.state;
@@ -148,7 +150,7 @@ class App extends Component {
                             </span>
                             <span class="description">{this.formatDate(item.date)}</span>
                           </div>
-                          <p> {item.description} </p>
+                          {/*this.renderHTML(item.description)*/}
                         </div>
                       </div>
                     </div>

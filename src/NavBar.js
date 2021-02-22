@@ -61,6 +61,12 @@ class App extends Component {
                     <p>Partners & Customers </p>
                   </NavLink>
                 </li> 
+                <li class="nav-item">
+                  <NavLink to={"/careers"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-user-friends" />
+                    <p>Careers </p>
+                  </NavLink>
+                </li> 
               {/*   <li class="nav-item">
                   <NavLink to={"/products"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-shopping-bag" />

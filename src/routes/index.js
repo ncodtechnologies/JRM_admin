@@ -7,6 +7,8 @@ import Login from '../pages/login';
 import Partners from '../pages/partners';
 import Products from '../pages/products';
 import AddNews from '../pages/addNews';
+import AddCareer from '../pages/careers/addcareer';
+import ViewCareers from '../pages/careers/viewCareers';
 import { createBrowserHistory } from "history";
 
 export default function Routes() {
@@ -24,6 +26,8 @@ export default function Routes() {
       <Route path="/products" component={Products} />  
       <Route path="/addNews/:id_news" component={AddNews} /> 
       <Route path="/login" component={Login} />  
+      <Route path="/careers/add/:id_career" exact component={AddCareer} />  
+      <Route path="/careers" exact component={ViewCareers} />  
     </HashRouter>
   ) : ( 
     <HashRouter>

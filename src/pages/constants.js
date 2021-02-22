@@ -34,3 +34,9 @@ export const URL_GET_CUSTOMERS          = `${BASE_URL}controller/partners/getCus
 export const URL_DEL_PARTNER            = `${BASE_URL}controller/partners/delPartner.php`;
 export const URL_DEL_CUSTOMER           = `${BASE_URL}controller/partners/delCustomer.php`;
 
+export const URL_GET_CAREERS           = `${BASE_URL}controller/careers/getCareers.php`;
+export const URL_GET_CAREER_DT         = `${BASE_URL}controller/careers/getCareerDt.php`;
+export const URL_DEL_CAREERS           = `${BASE_URL}controller/careers/delCareer.php`;
+export const URL_ADD_CAREERS           = `${BASE_URL}controller/careers/addCareer.php`;
+export const URL_UPD_CAREERS           = `${BASE_URL}controller/careers/updCareer.php`;
+

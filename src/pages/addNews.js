@@ -58,6 +58,7 @@ class App extends Component {
       this.loadItems(id_news);
     }
     this.checkImages();
+    window.setEditor();
   }
 
   hasBgImg (){
@@ -149,6 +150,7 @@ class App extends Component {
             message: data["news"].description,
             date: new Date(data["news"].date)
           })
+          window.setEditorText(data["news"].description);
            //console.log(this.state.title)
          })        
       .catch(error => console.log(error));
@@ -187,6 +189,7 @@ class App extends Component {
     this.setState({
       loading:true
     })
+    const message = window.getJQVal("#txtEditor");
       const url = this.props.match.params.id_news == 0 ? URL_SAVE_NEWS : URL_UPDATE_NEWS;
       const requestOptions = {
         method: 'POST',
@@ -197,7 +200,7 @@ class App extends Component {
           body: JSON.stringify({
           title: this.state.title,
           date: this.formatDate(this.state.date),
-          description: this.state.message,
+          description: message,
           id_news:this.props.match.params.id_news,        
         })
       };
@@ -330,8 +333,9 @@ class App extends Component {
                         </div>
                         <div class="form-group">
                           <label for="inputDescription">Message</label>
-                          <textarea  value={this.state.message} onChange={this.onMessageChange} class="form-control" rows="15"></textarea>
-                        </div>
+							            <textarea id="txtEditor"></textarea> 
+                       {/*   <textarea  value={this.state.message} onChange={this.onMessageChange} class="form-control" rows="15"></textarea>
+                       */} </div>
                         <button type="button" class="btn btn-block btn-success btn-flat" onClick={this.saveItem}>
                         {this.state.loading ?<i class="fas fa-1x fa-sync-alt fa-spin"></i> : "Save" }
                         </button>
